@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles.css">
+    <!--<link rel="stylesheet" href="styles.css">-->
+    <link rel="stylesheet" href="form.css">
     <title>Document</title>
 </head>
-<body></body>
+
+<script src="multi-polygon.js"></script>
 
 <script>
 function addAuthor()
@@ -62,12 +64,21 @@ document.getElementById('geo_bbox').innerHTML = `
         <label for="bbox2">Longitude Boundaries (Required):</label><br>
         <input type="text" id="bbox3" name="bbox3" value="">
         <input type="text" id="bbox4" name="bbox4" value=""><br>`;}
+
+if (selected_geometry == 6) {
+initializeDiv('geo_bbox');
+
+}
+
+
 if (selected_geometry == 8) {
 document.getElementById('geo_bbox').innerHTML = "No bounding box required";}
 }
 </script>
 
 
+
+<body>
 <h2>Publishing a Data Product</h2>
 
 <form action="welcome.php" method="POST"></form>
@@ -106,7 +117,7 @@ document.getElementById('geo_bbox').innerHTML = "No bounding box required";}
 	  <option value="GeometryCollection">Geometry Collection</option>
       <option value="null">Null: Not-spatial file"</option>
   </select>
-  <p><div id="geo_bbox"></div></p>
+  <div id="geo_bbox_container"><div id="geo_bbox"></div></div>
 </div>
     <h3> Metadata </h3>
     <label for="start_date">Temporal Extent:</label><br>
@@ -134,3 +145,4 @@ document.getElementById('geo_bbox').innerHTML = "No bounding box required";}
 </form>
 
 </body>
+</html>
