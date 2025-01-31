@@ -10,29 +10,10 @@
 </head>
 
 <script src="multi-polygon.js"></script>
+<script src="addAuthor.js"></script>
 
 <script>
-function addAuthor()
-{
-document.getElementById('questionDivContainer').innerHTML = `
-<label for="fname">Author Firstname:</label><br>
-    <input type="text" id="fname2" name="fname" value=""><br>
-    <label for="lname">Author Lastname:</label><br>
-    <input type="text" id="lname2" name="lname" value=""><br>
-    <label for="lname">Author Email:</label><br>
-    <input type="email" id="email2" name="email[]" value=""><br>`;
-}
 
-function geoPolygon()
-{
-document.getElementById('geo_bbox').innerHTML = `
-<label for="bbox1">Latitude Boundaries (Required):</label><br>
-        <input type="text" id="bbox1" name="bbox1" value="">
-        <input type="text" id="bbox2" name="bbox2" value=""><br>
-        <label for="bbox2">Longitude Boundaries (Required):</label><br>
-        <input type="text" id="bbox3" name="bbox3" value="">
-        <input type="text" id="bbox4" name="bbox4" value=""><br>`;
-}
 
 function geoPolygon2()
 {
@@ -40,109 +21,152 @@ var selected_geometry = document.getElementById("geometry").selectedIndex;
 console.log(selected_geometry);
 if (selected_geometry == 1) {
 document.getElementById('geo_bbox').innerHTML = `
-<label for="bbox1">Latitude (Required):</label><br>
-        <input type="text" id="bbox1" name="bbox1" value=""><br>
-        <label for="bbox2">Longitude (Required):</label><br>
-        <input type="text" id="bbox3" name="bbox3" value="">`;}
-if (selected_geometry == 2) {
-document.getElementById('geo_bbox').innerHTML = `
-<label for="bbox1">Latitude 1 (Required):</label>
-        <input type="text" id="bbox1" name="bbox1" value=""><br>
-        <label for="bbox2">Longitude 1 (Required):</label>
-        <input type="text" id="bbox3" name="bbox3" value=""><br>
-        <label for="bbox1">Latitude Point 2 (Required):</label>
-        <input type="text" id="bbox1" name="bbox1" value=""><br>
-        <label for="bbox2">Longitude Point 2 (Required):</label>
-        <input type="text" id="bbox3" name="bbox3" value="">     
-        `;
-    }
-if (selected_geometry == 5) {
-document.getElementById('geo_bbox').innerHTML = `
-<label for="bbox1">Latitude Boundaries (Required):</label><br>
-        <input type="text" id="bbox1" name="bbox1" value="">
-        <input type="text" id="bbox2" name="bbox2" value=""><br>
-        <label for="bbox2">Longitude Boundaries (Required):</label><br>
-        <input type="text" id="bbox3" name="bbox3" value="">
-        <input type="text" id="bbox4" name="bbox4" value=""><br>`;}
-
-if (selected_geometry == 6) {
-initializeDiv('geo_bbox');
-
+<div id="geometry1">
+  <h4> Add point: </h4><br>
+    <label for="bbox1">Latitude (Required):</label><br>
+    <input type="text" id="bbox1" name="bbox1" value=""><br>
+    <label for="bbox2">Longitude (Required):</label><br>
+    <input type="text" id="bbox3" name="bbox3" value=""><br>`;
 }
-
-
+if (selected_geometry == 2) {
+initializeDiv('geo_bbox');
+document.getElementById('upload').innerHTML = `
+    <h4> OR: Upload GeoJSON file </h4><br>
+    <input type="file" id="myFile" name="filename">`;
+}
+if (selected_geometry == 3) {
+initializeDiv('geo_bbox');
+document.getElementById('upload').innerHTML = `
+    <h4> OR: Upload GeoJSON file </h4><br>
+    <input type="file" id="myFile" name="filename">`;
+}
+if (selected_geometry == 4) {
+  initializeDiv('geo_bbox');
+    document.getElementById('geo_bbox2').innerHTML = `
+    <input type="button" value="Add Line String" onclick="initializeDiv('geo_bbox2');"/>`;
+    document.getElementById('upload').innerHTML = `
+    <h4> OR: Upload GeoJSON file </h4><br>
+    <input type="file" id="myFile" name="filename">`;
+}
+if (selected_geometry == 5) {
+  initializeDiv('geo_bbox');
+  document.getElementById('upload').innerHTML = `
+    <h4> OR: Upload GeoJSON file </h4><br>
+    <input type="file" id="myFile" name="filename">`;
+}
+if (selected_geometry == 6) {
+    initializeDiv('geo_bbox');
+    document.getElementById('geo_bbox2').innerHTML = `
+    <input type="button" value="Add Polygon" onclick="initializeDiv('geo_bbox2');"/>`;
+    document.getElementById('upload').innerHTML = `
+    <h4> OR: Upload GeoJSON file </h4><br>
+    <input type="file" id="myFile" name="filename">`;
+}
+if (selected_geometry == 7) {
+  document.getElementById('upload_geo').innerHTML = `
+   <h4> Upload GeoJSON file </h4><br>
+    <input type="file" id="myFile" name="filename">`;
+}
 if (selected_geometry == 8) {
-document.getElementById('geo_bbox').innerHTML = "No bounding box required";}
+  document.getElementById('geo_bbox').innerHTML = "No bounding box required";
+}
 }
 </script>
 
 
-
 <body>
-<h2>Publishing a Data Product</h2>
-
-<form action="welcome.php" method="POST"></form>
-	<h3> Background Information</h3>
+  <div id="intro">
+<h1>Publish Files to Red Oak STAC Catalog</h1><br>
+<p> This form allows you to publish datasets, data products and/or workflows to the Marble STAC catalog. Before filling out this form, ensure that the primary file is hosted on Red Oak in your public folder. Supplementary files such as input data can be included as third party links. After submission, a STAC item and citation will be generated and reviewed by admin before being uploaded to the catalog.</p>
+<form action="welcome.php" method="POST"></form><br>
+<label for="username">Red Oak Username:</label><br>
+    <input type="text" id="username" name="username" value=""><br>
+</div>
+<div id="background">
+	<h2> Background Information</h2><br>
     <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title" value=""><br>
+    <input type="text" id="title" name="title" value=""><br><br>
     <label for="desc">Description:</label><br>
-    <input type="text" id="desc" name="desc" value=""><br>
+    <p><i>Include any additional details you want to provide about the STAC item. Similar to an abstract.</i></p>
+    <input type="text" id="desc" name="desc" value=""><br><br>
     <label for="date">Date:</label><br>
+    <p><i>Date for generation of citation. Defaults to submission date if left blank</i></p>
     <input type="date" id="date" name="date" value=""><br>
-  <div class="author-group">
-    <h3> Authors</h3>
-    <p> Citation will list authors in order placed here </p>
-  	<label for="fname">Author Firstname:</label><br>
-  	<input type="text" id="fname" name="fname" value=""><br>
-  	<label for="lname">Author Lastname:</label><br>
-  	<input type="text" id="lname" name="lname" value=""><br>
-  	<label for="lname">Author Email:</label><br>
-  	<input type="email" id="email" name="email[]" value=""><br>
-    <p><div id="questionDivContainer"></div></p>
-    <input type="button" value="Add author" onclick="javascript: addAuthor();"/>
+</div>  
+    <div class="author-group">
+    <h2> Authors</h2><br>
+    <p> Citation will list authors in order placed here. First author will be contacted by email regarding any issues in the submission.</p>
+      <div id="author_box" class="parent">
+        <div id="author1" class="child">
+        <label for="fnam1">First Name*:</label><br>
+        <input type="text" id="fname1" name="fname1" value=""><br>
+        <label for="lname1">Last Name*:</label><br>
+        <input type="text" id="lnam1" name="lname1" value=""><br>
+        <label for="email1">Email*:</label><br>
+        <input type="text" id="email1" name="email1" value=""><br>
+      </div>
+    </div>
+      <div id="addAuthor">
+      <input type="button" value="Add Author" onclick="addAuthor('author_box');"/>
+    </div>
   </div>
-  <div class="geometry">
-  <h3> Geometry </h3>
-  <p> Information on geometry types can be found here: <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1">RFC 7946, section 3.1</a> </p>
-  <p> Longitudes should range from -180 to 180 and laitudes from -90 to 90.</p>
-  <label for="geometry">Choose the geometry type:</label>
-  <select name="geometry" id="geometry" onchange="geoPolygon2();" onfocus="this.selectedIndex = -1;">
+  <div id="geometry_class">
+    <h2> Geometry </h2><br>
+    <p> Information on geometry types can be found here: <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1">RFC 7946, section 3.1</a> </p>
+    <p> Longitudes should range from -180 to 180 and laitudes from -90 to 90.</p>
+    <label for="geometry">Choose the geometry type:</label>
+    <div id="select" class="child">
+    <select name="geometry" id="geometry" onchange="geoPolygon2();" onfocus="this.selectedIndex = -1;">
       <option value="blank">Select one</option>
       <option value="Point">Point</option>
       <option value="MultiPoint">Multi-Point</option>
       <option value="LineString">Line String</option>
       <option value="MultiLineString">Multi-Line String</option>
-	  <option value="Polygon">Polygon</option>
+	    <option value="Polygon">Polygon</option>
       <option value="MultiPolygon">Multi-Polygon</option>
-	  <option value="GeometryCollection">Geometry Collection</option>
-      <option value="null">Null: Not-spatial file"</option>
-  </select>
-  <div id="geo_bbox_container"><div id="geo_bbox"></div></div>
-</div>
-    <h3> Metadata </h3>
-    <label for="start_date">Temporal Extent:</label><br>
+	    <option value="GeometryCollection">Geometry Collection</option>
+      <option value="null">Null: Not-spatial file</option>
+    </select>
+    </div>
+  </div>
+  <div id="geo_bbox_container">
+    <div id="geo_bbox"></div>
+    <div id="geo_bbox2"></div>
+  </div>
+  <div id="upload"></div>
+  <div id=""metadata">
+    <h2> Metadata </h2><br>
+    <h4> Temporal Extent</h4>
+    <label for="start_date">Start Date:</label>
     <input type="date" id="start_date" name="start_date" value="">
-    <input type="date" id="end_date" name="end_date" value=""><br>
-    <label for="vars">Variables:</label><br>
+    <label for="end_date">End Date:</label>
+    <input type="date" id="end_date" name="end_date" value=""><br><br>
+    <h4> Climatological Variables</h4>
+    <p>A list of common variables is provided below. Adding additional variables as relevant is encouraged. Consult this link for standard variable names.</p>
     <input type="checkbox" id="temperature" name="vehicle1" value="Bike">
     <label for="temperature">Temperature </label><br>
     <input type="checkbox" id="precipitation" name="vehicle1" value="Bike">
     <label for="precipitation">Precipitation</label><br>
     <input type="checkbox" id="wind" name="vehicle1" value="Bike">
     <label for="wind"> Wind speed</label><br>
-
-    <h3> Linked Files </h3>
-    <label for="path">Path to File:</label><br>
+    <label for="vars">Additional variables (add as comma separated list):</label>
+    <input type="text" id="vars" name="vars" value=""><br><br>
+    <h4> Models</h4>
+    <p>List of relevant climate model data sources (eg CMIP6, EC3)</p>
+    <input type="text" id="models" name="models" value=""><br>
+  </div>
+  <div id="files">
+    <h2> Linked Files </h2><br>
+    <label for="path">Path to File (Primary file to be uploaded to STAC, should be in your public folder):</label><br>
     <input type="text" id="path" name="path" value=""><br>
-    <label for="input">Link to inputs:</label><br>
+    <label for="input">Link to inputs (Link to any input data used (can be RedOak or external link):</label><br>
     <input type="text" id="input" name="input" value=""><br>
-    <label for="link">Linked files:</label><br>
+    <label for="link">Linked to any additional files (workflow files):</label><br>
     <input type="text" id="link" name="link" value=""><br>
-    <input type="submit" value="Submit">
-
-  <br><br>
-
+  </div>
+  <br>
+  <div><input type="submit" value="Submit Form"></div>
+  <br>
 </form>
-
 </body>
 </html>

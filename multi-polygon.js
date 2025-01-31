@@ -36,7 +36,7 @@ function initializeDiv(divID) {
     geoBboxDiv.appendChild(input1);
     geoBboxDiv.appendChild(label2);
     geoBboxDiv.appendChild(input2);
-    geoBboxContainerDiv.appendChild(addButton);
+    geoBboxDiv.appendChild(addButton);
 
 }
 
@@ -84,7 +84,5 @@ function addNewPoint(divElementID){
     geoBboxDiv.appendChild(input1);
     geoBboxDiv.appendChild(label2);
     geoBboxDiv.appendChild(input2);
-
-
 
 }
