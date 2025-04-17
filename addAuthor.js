@@ -1,118 +1,85 @@
-
-function initializeAuthorDiv(divID) {
-
-    var authorDiv = document.getElementById(divID);
-    authorDiv.classList.add("author_box");
-
-    var authorContainerDiv = document.getElementById("author_box_container");
-
-    var label1 = document.createElement("label");
-    var input1 = document.createElement("input");
-
-    var label2 = document.createElement("label");
-    var input2 = document.createElement("input");
-
-    var label3 = document.createElement("label");
-    var input3 = document.createElement("input");
-
-    var addButton = document.createElement("button");
-    addButton.classList.add("addAuthor");
-    addButton.innerText = "Add Author";
-    addButton.addEventListener('click', function (){
-        addAuthor(divID);
-    });
-
-    label1.innerText = "First Name (Required):";
-    label1.setAttribute("for", "fname1");
-
-    input1.setAttribute("type", "text");
-    input1.setAttribute("id", "fname1");
-    input1.setAttribute("name", "fname1");
-
-    label2.innerText = "Last Name (Required):";
-    label2.setAttribute("for", "lname1");
-
-    input2.setAttribute("type", "text");
-    input2.setAttribute("id", "lname1");
-    input2.setAttribute("name", "lname1");
-
-    label3.innerText = "Email (Required):";
-    label3.setAttribute("for", "email1");
-
-    input3.setAttribute("type", "text");
-    input3.setAttribute("id", "email1");
-    input3.setAttribute("name", "email1");
-
-    authorDiv.appendChild(label1);
-    authorDiv.appendChild(input1);
-    authorDiv.appendChild(label2);
-    authorDiv.appendChild(input2);
-    authorDiv.appendChild(label3);
-    authorDiv.appendChild(input3);
-    authorContainerDiv.appendChild(addButton);
-
-}
-
-function addAuthor(divElementID){
-    var arrayLength = getDivElements(divElementID);
+function addAuthor(divElementID) {
     var authorDiv = document.getElementById(divElementID);
+    var autindex = document.querySelectorAll("[id^=fname]").length + 1; // Count existing authors
 
-    var lineBreak = document.createElement("br");
+    var div_box = document.createElement("div");
+    div_box.classList.add("child");
 
     var label1 = document.createElement("label");
-    var input1 = document.createElement("input");
-
-    var label2 = document.createElement("label");
-    var input2 = document.createElement("input");
-
-    var label3 = document.createElement("label");
-    var input3 = document.createElement("input");
-
-    var autindex = arrayLength + 1;
-
     label1.innerText = "First Name:";
     label1.setAttribute("for", "fname" + autindex);
 
+    var input1 = document.createElement("input");
     input1.setAttribute("type", "text");
     input1.setAttribute("id", "fname" + autindex);
-    input1.setAttribute("name", "fname" + autindex);
+    input1.setAttribute("name", "fname[]"); // Make it an array input
+    input1.addEventListener("input", updateAuthorList); // Update list on input
 
+    var label2 = document.createElement("label");
     label2.innerText = "Last Name:";
     label2.setAttribute("for", "lname" + autindex);
 
+    var input2 = document.createElement("input");
     input2.setAttribute("type", "text");
     input2.setAttribute("id", "lname" + autindex);
-    input2.setAttribute("name", "lname" + autindex);
+    input2.setAttribute("name", "lname[]"); // Changed name to array input for last name
 
+    var label3 = document.createElement("label");
     label3.innerText = "Email:";
     label3.setAttribute("for", "email" + autindex);
 
+    var input3 = document.createElement("input");
     input3.setAttribute("type", "text");
     input3.setAttribute("id", "email" + autindex);
-    input3.setAttribute("name", "email" + autindex);
+    input3.setAttribute("name", "email[]"); // Make it an array input
 
-    var div_box = document.createElement("div");
-    var div_label = document.createElement("label");
-    div_label.innerText = "AuDiv:";
-    div_label.setAttribute("for", "AuDiv" + autindex);
-    div_box.classList.add('child')
-
-    input3.setAttribute("type", "div");
-    input3.setAttribute("id", "AuDiv" + autindex);
-    input3.setAttribute("name", "AuDiv" + autindex);
-
-    authorDiv.appendChild(div_box)
-    div_box.appendChild(lineBreak);
     div_box.appendChild(label1);
-    div_box.appendChild(lineBreak);
     div_box.appendChild(input1);
-    div_box.appendChild(lineBreak);
     div_box.appendChild(label2);
-    div_box.appendChild(lineBreak);
     div_box.appendChild(input2);
-    div_box.appendChild(lineBreak);
     div_box.appendChild(label3);
-    div_box.appendChild(lineBreak);
     div_box.appendChild(input3);
 
+    authorDiv.appendChild(div_box);
 }
+
+// Function to update the hidden input field before form submission
+function updateAuthorList() {
+    var authorsFNames = [];
+    var authorsLNames = [];
+    var authorsEmails = [];
+    
+    // Select all first name and last name inputs
+    var inputs1 = document.querySelectorAll("[name='fname[]'], #fname1"); // First name inputs (including the initial one)
+    var inputs2 = document.querySelectorAll("[name='lname[]'], #lname1"); // Last name inputs (including the initial one)
+    var inputs3 = document.querySelectorAll("[name='email[]'], #email1"); // Last name inputs (including the initial one)
+
+    inputs1.forEach(input => {
+        if (input.value.trim() !== "") {
+            authorsFNames.push(input.value.trim()); // Add to first names list
+        }
+    });
+
+    inputs2.forEach(input => {
+        if (input.value.trim() !== "") {
+            authorsLNames.push(input.value.trim()); // Add to last names list
+        }
+    });
+
+    inputs3.forEach(input => {
+        if (input.value.trim() !== "") {
+            authorsEmails.push(input.value.trim()); // Add to emails list
+        }
+    });
+
+    // Store both first and last names as JSON strings
+    document.getElementById("authorFNames").value = JSON.stringify(authorsFNames);
+    document.getElementById("authorLNames").value = JSON.stringify(authorsLNames);
+    document.getElementById("authorEmails").value = JSON.stringify(authorsEmails);
+}
+
+// Ensure the list is updated before submitting the form
+document.getElementById("authorForm").addEventListener("submit", function() {
+    updateAuthorList();
+    updateGeoList();
+});
